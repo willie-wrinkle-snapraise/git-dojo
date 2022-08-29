@@ -49,6 +49,15 @@ $ git pull a-remote a-branch
 ```    
 It can be useful from time to time, especially if you need to quickly make a local copy of a remote branch (in which case I recommend making the name of the new branch you create something distinct.)
 
+## History
+Every commit is recorded in the history git keeps, also known as the `log`.
+* `git log` will show you the history. `git log` shows a lot of information, and has _a lot_ of flags/arguments that can be passed to it. Definitely check out `git log --help`, but be aware that help gets into some pretty confusing/advanced git concepts.
+  * `git log --grep <pat>` will filter the history, showing only commits that match the regular expression `<pat>`. You can also pass `-i` to make `<pat>` match case-insensitively.
+  * `git log -p` shows a patch (i.e., what's been changed) for each commit in the history.
+  * `git log --oneline` shows each commit message flattened into one line
+
+You can combine flags (where it makes sense), e.g. `git log --grep 'Add' --oneline`
+
 
 ## OH NO A MISTAKE
 THIS IS A MISTAKE AND SHOULD BE DELETED :(((((((
