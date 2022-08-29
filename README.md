@@ -48,3 +48,7 @@ $ git branch --set-upstream-to a-remote/a-branch
 $ git pull a-remote a-branch
 ```    
 It can be useful from time to time, especially if you need to quickly make a local copy of a remote branch (in which case I recommend making the name of the new branch you create something distinct.)
+
+
+## OH NO A MISTAKE
+THIS IS A MISTAKE AND SHOULD BE DELETED :(((((((
