@@ -1,5 +1,8 @@
 # Git Dojo
 
+## About Git
+Git is a [`version control system`](https://en.wikipedia.org/wiki/Version_control), initially created by [Linus Torvalds](https://en.wikipedia.org/wiki/Linus_Torvalds) in 2005 to facilitate development of the Linux kernel. Since then, it's become nearly omnipresent.
+
 ## Initialize a new repo
 * `git init`
   * if you have `>= 2.28` (`git --version` to check) you can change the default branch name
