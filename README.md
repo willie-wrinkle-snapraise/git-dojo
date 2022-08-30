@@ -73,6 +73,14 @@ The history is (ostensibly, deontologically) immutable. You can, however, edit i
 ### Cherry-picking
 * `git cherry-pick <commit>` will apply `<commit>` to your current branch. In a perfect world, this is nearly useless. In the actual world, this is a neat trick you can use to pull an individual commit out of another branch without merging the entire thing. You can get the `<commit>` id from the history (like with rebasing) and once you cherry-pick, you'll be taken through a process very similar to the rebase process--`git cherry-pick --commit` to commit, `git cherry-pick --abort` to abort. Like rebasing, or other advanced "backdoor" git tricks, don't be afraid to cut a new branch to work in if you have any concerns.
 
+
+### Fast-forwarding and force-pushing
+After you rebase or cherry-pick or do other Spooky Advanced Git Nonsense that directly messes with the history, you'll likely get an error message about "fast-forwarding" when you try to [`push`](#pulling-and-pushing) your changes. This is due to how git fundamentally works--the history is _part of the repo_, shared by everyone who's cloned the repo just as much as the files it contains. As such, when you change the history of a branch locally, it conflicts with the history of the branch on the remote. The solution is to "force push" your changes with the `-f` flag.
+
+**WARNING**: this is one of the few ways you can irrevocably delete/mess up things in a git repo. **BE CAREFUL** AND _NEVER_ FORCE-PUSH TO `main`!
+
+You may also see the same "fast-forwarding" error if you've made changes to a branch that someone else has also made changes to. In that case, the solution is to pull the other changes from the remote into your local copy and resolve any conflicts that result. Don't force-push to a branch someone else is working on, you'll erase their changes like a jerk!
+
 ## OH NO A MISTAKE
 THIS IS A MISTAKE AND SHOULD BE DELETED :(((((((
 
@@ -115,6 +123,9 @@ Git is huge and scary and has absolutely _terrible_ UX. Everybody knows this but
 Like databases and filesystems, there are a lot of GUI tools out there that purport to make git, or parts of it, easier. Use them if you want, but it's worth developing at least a passing comfort with command-line git in case you're ever in a situation where your GUI of choice is unavailable.
 
 Google aggressively, copy/paste from Stack Overflow, learn _just enough_ to be able to do your job and **do not feel bad about it**. I'd put git in the same bucket as regular expressions, one tier up from `make` or `sed`: you absolutely need to know _about_ it; you almost certainly should be familiar with it; you _can_ devote yourself to becoming an expert in it, if you really want, but the "worth it" curve levels off pretty sharply.
+
+Unfortunately, git is a real Linux Bro tool written and maintained by real Linux Bro dudes and therefore the `man` pages and official documentation are nearly worthless. You're much better off using [bro](http://bropages.org/) or other sources of concrete examples.
+
 
 Resist the urge to `git add .`
 
