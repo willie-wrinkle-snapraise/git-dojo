@@ -58,6 +58,33 @@ Every commit is recorded in the history git keeps, also known as the `log`.
 
 You can combine flags (where it makes sense), e.g. `git log --grep 'Add' --oneline`
 
+### Rebasing
+The history is (ostensibly, deontologically) immutable. You can, however, edit it.
+* `git rebase -i <commit>` will let you edit the history. You _almost never_ want to do this, and could really mess things up if you do it wrong.
+  * Once you've opened the editor, you can
+    * Re-order commits (by moving them around)
+    * Delete commits (by changing `pick` to `d`
+    * Squash commits together (by changing `pick` to `s`)
+    * Edit commits (by changing `pick` to `e`)
+  * Once you've made your choices, you'll be taken through the rebasing process. It's less fraught than it might seem, and the prompts are helpful. The key things to remember are to make frequent and aggressive use of `git status`, and to `git rebase --abort` as soon as you suspect you might need to (#failfast.)
+  * Get the `<commit>` id from the history--either by `git log` or by looking on GitHub. If there's a specific commit you're trying to address, make sure to start the rebase one commit _before_ that commit.
+  * Before rebasing (or doing any other Spooky Advanced Git Nonsense), _cut a new branch_. It's easy, and if you make a mistake you can switch back to your old branch without harm.
 
 ## OH NO A MISTAKE
 THIS IS A MISTAKE AND SHOULD BE DELETED :(((((((
+
+
+## Misc
+* `git diff <path>` will show you the changes made to an _unstaged_ file.
+  * `git diff HEAD <path>` (all caps, important) will show you the changes made to a _staged_ file.
+* `HEAD` is a "symbolic ref" that means, basically, "the last commit."
+  * `HEAD~<N>` refers to `N` commits _before_ the last commit. So if you want to compare the current state of a file to its state 2 commits ago, you would use `git diff HEAD~2`.
+    * There's also `HEAD^<N>` and `HEAD^^` and some other ways of referring to previous commits that take into account merges. [This](https://stackoverflow.com/questions/2221658/whats-the-difference-between-head-and-head-in-git) is a pretty good discussion on SO if you're curious.
+
+
+## Afterword
+Git is huge and scary and has absolutely _terrible_ UX. Everybody knows this but it's somehow already too late to do anything about it.
+
+Google aggressively, copy/paste from Stack Overflow, learn _just enough_ to be able to do your job and _do not feel bad about it_. I'd put it in the same bucket as regular expressions, one tier up from `make` or `sed`. 
+
+The good news is that it's nearly impossible to accidentally permanently screw things up. Don't be shy about cutting new branches, and push frequently even if you're not "done".
