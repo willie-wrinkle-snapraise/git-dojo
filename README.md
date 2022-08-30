@@ -66,9 +66,12 @@ The history is (ostensibly, deontologically) immutable. You can, however, edit i
     * Delete commits (by changing `pick` to `d`
     * Squash commits together (by changing `pick` to `s`)
     * Edit commits (by changing `pick` to `e`)
-  * Once you've made your choices, you'll be taken through the rebasing process. It's less fraught than it might seem, and the prompts are helpful. The key things to remember are to make frequent and aggressive use of `git status`, and to `git rebase --abort` as soon as you suspect you might need to (#failfast.)
+  * Once you've made your choices, you'll be taken through the rebasing process. It's less fraught than it might seem, and the prompts are helpful. The key things to remember are to make frequent and aggressive use of `git status`, use `git rebase --commit` instead of `git commit`, and to `git rebase --abort` as soon as you suspect you might need to (#failfast.)
   * Get the `<commit>` id from the history--either by `git log` or by looking on GitHub. If there's a specific commit you're trying to address, make sure to start the rebase one commit _before_ that commit.
   * Before rebasing (or doing any other Spooky Advanced Git Nonsense), _cut a new branch_. It's easy, and if you make a mistake you can switch back to your old branch without harm.
+
+### Cherry-picking
+* `git cherry-pick <commit>` will apply `<commit>` to your current branch. In a perfect world, this is nearly useless. In the actual world, this is a neat trick you can use to pull an individual commit out of another branch without merging the entire thing. You can get the `<commit>` id from the history (like with rebasing) and once you cherry-pick, you'll be taken through a process very similar to the rebase process--`git cherry-pick --commit` to commit, `git cherry-pick --abort` to abort. Like rebasing, or other advanced "backdoor" git tricks, don't be afraid to cut a new branch to work in if you have any concerns.
 
 ## OH NO A MISTAKE
 THIS IS A MISTAKE AND SHOULD BE DELETED :(((((((
@@ -98,16 +101,23 @@ THIS IS A MISTAKE AND SHOULD BE DELETED :(((((((
 
 
 ## Misc
+* `git status` will show you the paths that have been created and staged-but-not-committed. I use it compulsively.
 * `git diff <path>` will show you the changes made to an _unstaged_ file.
   * `git diff HEAD <path>` (all caps, important) will show you the changes made to a _staged_ file.
 * `HEAD` is a "symbolic ref" that means, basically, "the last commit."
   * `HEAD~<N>` refers to `N` commits _before_ the last commit. So if you want to compare the current state of a file to its state 2 commits ago, you would use `git diff HEAD~2`.
-    * There's also `HEAD^<N>` and `HEAD^^` and some other ways of referring to previous commits that take into account merges. [This](https://stackoverflow.com/questions/2221658/whats-the-difference-between-head-and-head-in-git) is a pretty good discussion on SO if you're curious.
+    * There's also `HEAD^<N>` and `HEAD^^` and some other ways of referring to previous commits that take merges into account. [This](https://stackoverflow.com/questions/2221658/whats-the-difference-between-head-and-head-in-git) is a pretty good discussion on SO if you're curious.
 
 
 ## Afterword
 Git is huge and scary and has absolutely _terrible_ UX. Everybody knows this but it's somehow already too late to do anything about it.
 
-Google aggressively, copy/paste from Stack Overflow, learn _just enough_ to be able to do your job and _do not feel bad about it_. I'd put it in the same bucket as regular expressions, one tier up from `make` or `sed`. 
+Like databases and filesystems, there are a lot of GUI tools out there that purport to make git, or parts of it, easier. Use them if you want, but it's worth developing at least a passing comfort with command-line git in case you're ever in a situation where your GUI of choice is unavailable.
 
-The good news is that it's nearly impossible to accidentally permanently screw things up. Don't be shy about cutting new branches, and push frequently even if you're not "done".
+Google aggressively, copy/paste from Stack Overflow, learn _just enough_ to be able to do your job and **do not feel bad about it**. I'd put git in the same bucket as regular expressions, one tier up from `make` or `sed`: you absolutely need to know _about_ it; you almost certainly should be familiar with it; you _can_ devote yourself to becoming an expert in it, if you really want, but the "worth it" curve levels off pretty sharply.
+
+Resist the urge to `git add .`
+
+It's nearly impossible to accidentally permanently screw things up. Don't be shy about cutting new branches, and push frequently even if you're not "done".
+
+If you want a (much) deeper dive, [Building Git](https://shop.jcoglan.com/building-git/) by James Coglan is a fun tour through git internals, by systematically (re)building it in Ruby.
