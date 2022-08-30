@@ -74,6 +74,29 @@ The history is (ostensibly, deontologically) immutable. You can, however, edit i
 THIS IS A MISTAKE AND SHOULD BE DELETED :(((((((
 
 
+## Configuring Git
+* `git config` lets you configure git (the program).
+  * `git config --global` is for global (system-wide) settings. `git config` (without `--global`) configures settings for the repo you're currently in.
+  * The general pattern is `git config [--global] <section>.<setting> <value>`, e.g. `git config --global user.name "Sam Raker"`. The ones you want to make sure are configured are
+    * `user.name`
+    * `user.email`
+    * `core.editor` determines which editor is used when editing commit messages and the history when you `rebase -i`. I don't know what the default is for Mac but it's probably `nano` or something. Change it to `vim` or `emacs` if you want; changing it to a whole IDE like vscode is probably not worth it.
+* `git config --list` will show you all your settings. There are a lot of them; I don't know what most of them do. Like a lot of things git, they don't really matter until they do, and then you can learn something.
+
+### Other Configuration
+* Paths listed in a file called `.gitignore` in the top-level directory of a repository will be ignored by git. (Remember to `add` and `commit` it!)
+  * `.gitignore` files have their own peculiar syntax, similar to [globs](https://en.wikipedia.org/wiki/Glob_(programming)).
+    * `foo` will match (and therefore ignore) a file or directory named `foo` in the top-level directory
+    * `foo/` will match a directory named `foo` in the top-level directory
+    * `foo/**/bar` will match a file or directory named `bar` within _any number of other directories_ beneath `foo` (`foo/bar`, `foo/a/bar`, `foo/b/bar`, `foo/a/b/c/d/bar`, etc.)
+    * `**/foo` will match a file or directory named `foo` _anywhere_ within the repo, regardless of directory structure.
+    * `?` matches any single (non-`/`) character, so `foo/b?r` would match `foo/bar`, `foo/bbr`, etc. (but _not_ `foo/b/r`.)
+    * `!` "un-ignores" files and directories, so `!foo/bar` means `bar` will _not_ be ignored even if everything else under `foo` is.
+  * Many tools (`cargo new`, `create-react-app`, etc.) generate their own `.gitignore` files, which you can use as inspiration.
+* `.gitignore` files exist within and for the repo. Everyone who clones the repo will have the same `.gitignore` file. As such, it's considered good practice not to fill them with platform- or user-specific things (e.g. `.DS_STORE`). Instead, you can add things like that to the file `.git/info/exclude`, which is specific to your own copy of the repo--it's not committed or shared.
+
+
+
 ## Misc
 * `git diff <path>` will show you the changes made to an _unstaged_ file.
   * `git diff HEAD <path>` (all caps, important) will show you the changes made to a _staged_ file.
