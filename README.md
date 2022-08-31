@@ -23,7 +23,7 @@ Much like most people use `main` for the default branch, it's conventional to ca
 
 
 ## Pulling and Pushing
-Much like branches, individual git repositories (remotes) are discrete and do not, by default, affect one another. In order to interact with other instances of your repo, you need to `push` and `pull`.
+Individual git repositories (remotes) are discrete and do not, by default, affect one another. In order to interact with other instances of your repo, you need to `push` and `pull`.
 * `git pull <remote> <branch>` will "pull" the current state of a given branch on a given remote and [`merge`](#merging) it into your current branch. Thus, if you wanted to pull the latest changes that have been made to `main` on `origin` into the branch you're working on, you could do `git pull origin main`.
 * `git push <remote> [<branch>]` will "push" the changes committed in a given branch to the given remote. If you leave out `branch` it will push the branch you're currently on. Thus, once you've committed your local changes, you could do `git push origin` to push those changes up to `origin`. (NB: separate branches are still separate, even on `origin`. Someone would still have to [`merge`](#merging) your branch into e.g. `main`.)
 
@@ -35,7 +35,6 @@ By default, everything is disconnected and you have to specify remotes and branc
 ### Fetching
 `git pull`, as discussed, does two things in sequence--it gets the latest changes to one branch from the remote _and_ applies them to your current branch. You can, however, _just_ retrieve changes from a remote, _without_ applying them to a local branch.
 * `git fetch <remote>` gets changes from _all_ branches on `<remote>`. It's useful for seeing what other work has been done on the remote and potentially interacting with those branches locally, without making any changes on the remote (remember, anything you do locally is separate until you `push`.)
-
 
 ### Some other stuff
 * `git push <remote> :<branch>` will delete `<branch>` on `<remote>`. You probably don't want to do this.
@@ -84,7 +83,6 @@ You may also see the same "fast-forwarding" error if you've made changes to a br
 ## OH NO A MISTAKE
 THIS IS A MISTAKE AND SHOULD BE DELETED :(((((((
 
-
 ## Configuring Git
 * `git config` lets you configure git (the program).
   * `git config --global` is for global (system-wide) settings. `git config` (without `--global`) configures settings for the repo you're currently in.
@@ -106,8 +104,6 @@ THIS IS A MISTAKE AND SHOULD BE DELETED :(((((((
   * Many tools (`cargo new`, `create-react-app`, etc.) generate their own `.gitignore` files, which you can use as inspiration.
 * `.gitignore` files exist within and for the repo. Everyone who clones the repo will have the same `.gitignore` file. As such, it's considered good practice not to fill them with platform- or user-specific things (e.g. `.DS_STORE`). Instead, you can add things like that to the file `.git/info/exclude`, which is specific to your own copy of the repo--it's not committed or shared.
 
-
-
 ## Misc
 * `git status` will show you the paths that have been created and staged-but-not-committed. I use it compulsively.
 * `git diff <path>` will show you the changes made to an _unstaged_ file.
@@ -115,7 +111,11 @@ THIS IS A MISTAKE AND SHOULD BE DELETED :(((((((
 * `HEAD` is a "symbolic ref" that means, basically, "the last commit."
   * `HEAD~<N>` refers to `N` commits _before_ the last commit. So if you want to compare the current state of a file to its state 2 commits ago, you would use `git diff HEAD~2`.
     * There's also `HEAD^<N>` and `HEAD^^` and some other ways of referring to previous commits that take merges into account. [This](https://stackoverflow.com/questions/2221658/whats-the-difference-between-head-and-head-in-git) is a pretty good discussion on SO if you're curious.
-
+* `git stash` will temporarily "stash" what you've [`staged`](#committing) and reset you to your last commit.
+  * `git stash list` will show a list of "stashes," identified by the most recent commit before the stash, i.e. `stash@{0}: WIP on <branch>: <commit> <message>`.
+  * `git stash pop [<stash>]` will "pop" a stash and (re-)apply the changes it contains (which may cause [`merge conflicts`](#merging).) Without an argument, `git stash pop` will "pop" the most recent stash, but you can specify a different stash by its id (`stash@{0}`, `stash@{1}`, etc.)
+  * `git stash show [<stash>]` will show you which files are affected by the changes in the stash.
+  * `git stash clear` will empty the stash cache.
 
 ## Afterword
 Git is huge and scary and has absolutely _terrible_ UX. Everybody knows this but it's somehow already too late to do anything about it.
